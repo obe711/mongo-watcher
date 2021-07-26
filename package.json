@@ -1,0 +1,49 @@
+{
+  "name": "mongo-watcher",
+  "version": "1.1.0",
+  "author": {
+    "name": "Obediah Benjamin Klopfenstein",
+    "email": "obe711@gmail.com"
+  },
+  "contributors": [
+    "Kaden Klopfenstein"
+  ],
+  "description": "Extremely robust, fault-tolerant MongoDB changes watcher and follower",
+  "license": "MIT",
+  "keywords": [
+    "mongodb",
+    "changes",
+    "node",
+    "events"
+  ],
+  "homepage": "http://github.com/obe711/mongo-watcher",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/obe711/mongo-watcher"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "dependencies": {
+    "browser-request": "~0.3.0",
+    "debug": "^2.1.0",
+    "dotenv": "^10.0.0",
+    "mongodb": "^4.0.1",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "tap": "~0.4.0",
+    "traceback": "~0.3.0"
+  },
+  "browser": {
+    "request": "browser-request"
+  },
+  "main": "./api.js",
+  "scripts": {
+    "test": "tap test/*.js",
+    "dev": "DEBUG=change_stream nodemon dev.js"
+  },
+  "bin": {
+    "follow": "./cli.js"
+  }
+}
