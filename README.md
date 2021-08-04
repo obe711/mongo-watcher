@@ -174,20 +174,6 @@ Watcher is happy to retry over and over, for all eternity. It will only emit an 
 - Invalid change object format, which should be impossible from MongoDB
 - Internal error, if the internal state seems wrong, e.g. cancelling a timeout that already expired, etc. Follow tries to fail early.
 
-## Tests
-
-Follow uses [node-tap][tap]. If you clone this Git repository, tap is included.
-
-    $ ./node_modules/.bin/tap test/*.js test/issues/*.js
-    ok test/mongo.js ...................................... 11/11
-    ok test/follow.js ..................................... 69/69
-    ok test/issues.js ..................................... 44/44
-    ok test/stream.js ................................... 300/300
-    ok test/issues/10.js .................................. 11/11
-    total ............................................... 435/435
-
-    ok
-
 ## License
 
 MIT
