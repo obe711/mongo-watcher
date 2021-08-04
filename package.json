@@ -25,22 +25,13 @@
     "node": ">=0.8.0"
   },
   "dependencies": {
-    "browser-request": "~0.3.0",
     "debug": "^2.1.0",
-    "dotenv": "^10.0.0",
-    "mongodb": "^4.0.1",
-    "request": "^2.83.0"
-  },
-  "devDependencies": {
-    "tap": "~0.4.0",
-    "traceback": "~0.3.0"
-  },
-  "browser": {
-    "request": "browser-request"
+    "mongodb": "^4.0.1"
   },
   "main": "./api.js",
   "scripts": {
-    "test": "tap test/*.js",
+    "test": "node example/tester.js",
+    "example": "node example/example.js",
     "dev": "DEBUG=change_stream nodemon dev.js"
   }
 }
