@@ -1,20 +1,22 @@
-
+/**
+ * Updates a document in the watched collection
+*/
 const { MongoClient } = require("mongodb");
+
+// Config
 const url = "mongodb://localhost:27017";
 const db = "stresstest";
 const collection = "dev";
 
-// Replace the following with your MongoDB deployment's connection
-// string.
-//const url = "mongodb://localhost:27017/watchExample";
-
+// Update
+const firstName = "Ben";
 
 
 MongoClient.connect(url, async function (err, client) {
-  // Create a collection we want to drop later
+  // Watched collection
   const col = client.db(db).collection(collection);
-  // Show that duplicate records got droppe
-  col.findOneAndUpdate({}, { $set: { firstName: "fddf", lastName: "neal", email: "fsdddd" } }, (err, res) => {
+  // Find and update document
+  col.findOneAndUpdate({}, { $set: { firstName, lastName: "Klopfenstein", email: "obe711@gmail.com" } }, (err, res) => {
     if (err) console.error(err);
     console.log(res, "updated");
     client.close();
