@@ -42,8 +42,5 @@
   "scripts": {
     "test": "tap test/*.js",
     "dev": "DEBUG=change_stream nodemon dev.js"
-  },
-  "bin": {
-    "follow": "./cli.js"
   }
 }
