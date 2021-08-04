@@ -30,8 +30,9 @@
   },
   "main": "./api.js",
   "scripts": {
-    "test": "node example/tester.js",
     "example": "node example/example.js",
+    "example:setup": "node example/setup.js",
+    "example:test": "node example/tester.js",
     "dev": "DEBUG=change_stream nodemon dev.js"
   }
 }

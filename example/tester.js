@@ -5,20 +5,34 @@ const { MongoClient } = require("mongodb");
 
 // Config
 const url = "mongodb://localhost:27017";
-const db = "stresstest";
-const collection = "dev";
+const db = "watchedDB";
+const collection = "watchedCOL";
 
-// Update
+// Update - Change this before running test script
 const firstName = "Ben";
 
 
-MongoClient.connect(url, async function (err, client) {
-  // Watched collection
-  const col = client.db(db).collection(collection);
-  // Find and update document
-  col.findOneAndUpdate({}, { $set: { firstName, lastName: "Klopfenstein", email: "obe711@gmail.com" } }, (err, res) => {
-    if (err) console.error(err);
-    console.log(res, "updated");
-    client.close();
-  })
-});
+const client = new MongoClient(url);
+
+(async () => {
+  try {
+    await client.connect();
+
+    const database = client.db(db);
+
+    const col = database.collection(collection);
+
+    const result = await col.findOneAndUpdate({}, { $set: { firstName, lastName: "Klopfenstein", email: "obe711@gmail.com" } })
+
+    console.log(result, "updated");
+
+  } catch (ex) {
+
+    console.error('Ooops', ex);
+
+  } finally {
+
+    await client.close();
+
+  }
+})();

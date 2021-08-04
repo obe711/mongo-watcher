@@ -4,8 +4,8 @@ var feed = new follow.Feed(opts);
 
 // You can also set values directly.
 feed.url = "mongodb://localhost:27017";
-feed.db = "stresstest";
-feed.col = "dev";
+feed.db = "watchedDB";
+feed.col = "watchedCOL";
 feed.heartbeat = 30 * 1000
 feed.inactivity_ms = 86400 * 1000;
 
