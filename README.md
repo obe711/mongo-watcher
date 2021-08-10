@@ -7,15 +7,33 @@ Mongo Watcher comes from a tool for updating configuration files on multiple ser
 
 ## Example
 
-This looks much like the [request][req] API.
+The main API is a thin wrapper around the EventEmitter API.
 
 ```javascript
-const follow = require("mongo-watcher");
-follow("mongodb://localhost:27017", function (error, change) {
-  if (!error) {
-    console.log("GoogleApiKey " + change._id + " Updated");
+const follow = require("./api");
+const opts = {}; // Same options paramters as before
+const feed = new follow.Feed(opts);
+
+// You can also set values directly.
+feed.url = "mongodb://localhost:27017";
+feed.db = "watchedDB";
+feed.col = "watchedCOL";
+feed.heartbeat = 30 * 1000;
+feed.inactivity_ms = 86400 * 1000;
+
+feed.on("change", function (change) {
+  if (Array.isArray(change) && change.length > 0) {
+    console.log("Doc(s) " + [...change].map((doc) => doc._id) + " has changed");
+    console.log(change);
   }
 });
+
+feed.on("error", function (er) {
+  console.error("Since Follow always retries on errors, this must be serious");
+  throw er;
+});
+
+feed.follow();
 ```
 
 The _error_ parameter to the callback will basically always be `null`.
@@ -45,29 +63,7 @@ If MongoDB permanently crashes, there is an option of failure modes:
 For each change, Watcher will emit a `change` event containing:
 
 - `_id`, `createdAt`, `updatedAt` as well as the changed document(s)
-- `db_name`: Name of the database where the change occoured.
 - `ok`: Event operation status (boolean).
-
-### Simple API: follow(options, callback)
-
-The first argument is an options object. The only required options are `url`, `db` and `col`.
-
-```javascript
-follow(
-  { url: "mongodb://localhost:27017", include_docs: true },
-  function (error, change) {
-    if (!error) {
-      console.log(
-        "Change " +
-          change._id +
-          " has " +
-          Object.keys(change.doc).length +
-          " fields"
-      );
-    }
-  }
-);
-```
 
 <a name="options"></a>
 This module uses the MongoDB NodeJs. See https://docs.mongodb.com/drivers/node/current.
@@ -82,37 +78,6 @@ Besides the MongoDB options, more are available:
 - `max_retry_seconds` | Maximum time to wait between retries (default: 360 seconds)
 - `initial_retry_delay` | Time to wait before the first retry, in milliseconds (default 1000 milliseconds)
 - `response_grace_time` | Extra time to wait before timing out, in milliseconds (default 5000 milliseconds)
-
-## Object API
-
-The main API is a thin wrapper around the EventEmitter API.
-
-```javascript
-const follow = require("mongo-watcher");
-
-var opts = {}; // Same options paramters as before
-var feed = new follow.Feed(opts);
-
-// You can also set values directly.
-feed.url = "mongodb://localhost:27017";
-feed.db = "configurations";
-feed.col = "aipkeys";
-feed.heartbeat = 30 * 1000;
-feed.inactivity_ms = 86400 * 1000;
-
-feed.on("change", function (change) {
-  console.log(
-    "Doc " + change._id + " named " + change.title + " has been updated"
-  );
-});
-
-feed.on("error", function (er) {
-  console.error("Since Watcher always retries on errors, this must be serious");
-  throw er;
-});
-
-feed.follow();
-```
 
 <a name="pause"></a>
 
@@ -177,6 +142,3 @@ Watcher is happy to retry over and over, for all eternity. It will only emit an 
 ## License
 
 MIT
-
-[req]: https://github.com/mikeal/request
-[tap]: https://github.com/isaacs/node-tap

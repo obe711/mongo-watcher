@@ -1,6 +1,6 @@
 const follow = require('../api')
-var opts = {}; // Same options paramters as before
-var feed = new follow.Feed(opts);
+const opts = {}; // Same options paramters as before
+const feed = new follow.Feed(opts);
 
 // You can also set values directly.
 feed.url = "mongodb://localhost:27017";
